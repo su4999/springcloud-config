@@ -1,0 +1,231 @@
+server:
+  port: 8889
+  servlet:
+    context-path: /clue
+  tomcat:
+    uri-encoding: UTF-8
+  max-http-header-size: 40KB
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: trs-clues-service
+  cloud:
+    nacos:
+      discovery:
+        namespace: public
+        server-addr: 192.168.24.190:8848
+      config:
+        enabled: false
+#      config:
+#        namespace: public
+#        server-addr: 192.168.24.190:8848
+#        prefix: common-config
+#        file-extension: yaml
+#        refresh:
+#          enabled: true
+
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/hnsg_server_prod?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Hongkong&serverTimezone=GMT%2b8&allowMultiQueries=true
+    type: com.zaxxer.hikari.HikariDataSource          # 数据源类型：HikariCP
+    driver-class-name: com.mysql.cj.jdbc.Driver          # mysql驱动
+    hikari:
+      connection-timeout: 30000
+      minimum-idle: 5
+      maximum-pool-size: 20
+      auto-commit: true
+      idle-timeout: 600000
+      pool-name: DateSourceHikariCP
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+  servlet:
+    multipart:
+      max-file-size: 100000000     # 文件上传大小限制为100000000字节
+      max-request-size: 100000000  # 请求大小限制为100000000字节
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+    database: 0
+    host: 192.168.24.190
+    port: 6379
+    password: 123456
+  jackson :
+    time-zone : GMT+8
+    serialization: {WRITE_DATES_AS_TIMESTAMPS: true}
+
+mybatis:
+  type-aliases-package: com.sm.pojo
+  mapper-locations: classpath:**/mapper/**/*.xml
+
+mybatis-plus:
+  mapper-locations: classpath:**/mapper/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: true
+
+mapper:
+  mappers: com.sm.my.mapper.MyMapper
+  not-empty: false
+  identity: MYSQL
+# 分页插件配置
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+
+fastdfs:
+  charset: UTF-8
+  connect-timeout: 5
+  http-secret-key: 1234567890
+  network-timeout: 30
+  http-anti-steal-token: true
+  tracker-servers: 192.168.24.190:22122
+
+
+dk :
+  account:
+    username: "test018"
+    password: "Jaow92!2$u"
+  url : "http://124.225.17.80:8156"
+  organization :
+    allOrganizations : "/api-idaas/idaas/app/organization/getAllOrganizations"  #  获取所有组织列表
+    relevantOrgalist : "/api-idaas/idaas/app/organization/getRelevantOrgaList" #获取部门直属关系部门列表
+    sameLevelOrgalist : "/api-idaas/idaas/app/organization/getSameLevelOrgaList" # 获取部门A在部门B下，所有同级部门列表
+    lowLevelOrgalist : "api-idaas/idaas/app/organization/getLowLevelOrgaById" # 根据根部门id，获取所有子级部门列表
+    allOrganizationsList : "/api-idaas/idaas/app/organization/getAllOrganizationsList" #获取所有组织列表(非树)
+  user :
+    login : "/api-idaas/idaas/sso/login" #IDaas用户登陆
+    logout : "/api-idaas/idaas/sso/logout" # IDaas用户登出
+    userMenulist : "/api-idaas/idaas/ps/user/menuList" #获取用户菜单权限列表
+    userInfo : "/api-idaas/idaas/sso/user/info" #获取当前用户信息
+    userButtonlist : "/api-idaas/idaas/ps/user/buttonList" #获取用户按钮权限列表
+    accountList : "/api-idaas/idaas/app/account/getAccountList" #获取账户列表(根据部门uuid获取账户列表，部门uuid为空则返回系统所有用户列表)
+    userReftoken : "/api-idaas/idaas/sso/user/refToken" #临到期刷新sessionToken
+    userByIdQuery : "/api-idaas/idaas/app/account/detail/" #根据用户id查询用户信息
+    idaasGetrolelist : "/api-idaas/idaas/ps/getRoleList" #获取所有角色列表
+    roleUsers : "/api-idaas/idaas/ps/getRoleUsers" #获取角色所有已授权用户（分页）
+    dataPermissionList : "/api-idaas/idaas/ps/user/dataPermissionList" #获取用户数据权限列表
+    allUserRoleList : "/api-idaas/idaas/ps/user/roleList" #获取用户角色列表以及各角色的菜单、按钮权限权限
+    isUserHasPermission : "/api-idaas/user/isUserHasPermission" #根据权限值，对当前用户进行鉴权
+    listSubLevelPermissions : "/api-idaas/idaas/ps/user/listSubLevelPermissions" #获取指定权限节点下，用户已授权的权限
+    userValidate : "/api-idaas/idaas/sso/user/validate" #用户登录状态鉴权
+
+beixinyuan:
+  app_id : "21256823686"
+  app_secret : "Ip36MXSZaJww9vFeRhtqZkYPRM5UTKwcN4fSz-rNjZo"
+  base_url : "https://218.77.183.208:10669"
+
+user:
+  deptCode:
+    default: 46SG_ZHZX_JCYJX #默认部门编码
+    suffix: SG_ZHZX_JCYJX #行政区域编码截取拼接后缀
+    zhddxSuffix: SG_ZHZX_ZHDDX #指挥调度席后缀
+  regionCode:
+    default: 460100 #默认区域编码
+receive:
+  deptCode: SG_ZHZX_FXYPX #分析研判席
+rocketmq:
+  jcyj:
+    namesrvAddr: http://mq.namesrv.paas.sgpt.gov:9876
+    groupId: GID_tuoersi
+    ak: 6f181321efd9449ba45d2c69796b17f5
+    sk: OopH5XhRhlZfCg/O7iFaWotHkLQ=
+    instanceId: MQ_INST_edas_Bdj5VDEc
+  odae:
+    namesrvAddr: http://mq.namesrv.paas.sgpt.gov:9876
+    groupId: GID_tuoersi
+    topic: trs_odae_ybxx~*
+    ak: 6f181321efd9449ba45d2c69796b17f5
+    sk: OopH5XhRhlZfCg/O7iFaWotHkLQ=
+    instanceId: MQ_INST_edas_Bdj5VDEc
+  unifiedPortal:
+    namesrvAddr: http://mq.namesrv.paas.sgpt.gov:9876
+    groupId: GID_TRS_al_tymh_test
+    ak: 6f181321efd9449ba45d2c69796b17f5
+    sk: OopH5XhRhlZfCg/O7iFaWotHkLQ=
+    instanceId: MQ_INST_edas_BdvEbyiw
+ribbon:
+  #  eager-load:
+  #    enabled: true
+  #    clients: clues-service,trs-common-service 不使用饿加载创建feign客户端，可能会有问题
+  ConnectTimeout: 2000 #feign连接超时时间
+  ReadTimeout: 3000 #feign读取超时时间
+feign:
+  hystrix:
+    enabled: false # 开启 Hystrix 对 Feign 的支持，默认为 false 关闭。
+  httpclient:
+    enabled: false #关闭httpclient
+    # 配置连接池
+    max-connections: 200 #feign的最大连接数
+    max-connections-per-route: 50 #fegin单个路径的最大连接数
+  # 启用 okhttp 关闭默认 httpclient
+  okhttp:
+    enabled: true # 是否开启。默认为 false
+  # 请求与响应的压缩以提高通信效率
+  compression:
+    request:
+      enabled: true
+      min-request-size: 2048
+      mime-types: text/xml,application/xml,application/json
+    response:
+      enabled: true
+#hystrix:
+#  command:
+#    default:
+#      circuitBreaker:
+#        requestVolumeThreshold: 5 # 请求失败次数 ，达到数值后开启熔断,默认20
+#      execution:
+#        timeout:
+#          enabled: true #请求进行重试
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000 #例如有两个容器实例，单个请求超时3s,+重试>10s，超15s则熔断 ,默认1秒
+
+# nacos日志级别改warn
+logging:
+  level:
+    com:
+      alibaba:
+        nacos: warn
+
+
+
+#xxl-job配置信息
+xxl:
+  job:
+    admin:
+      addresses: http://192.168.24.192:8089/xxl-job-admin #xxl-job服务端配置中心
+    accessToken: xxl_job_trs
+    executor:
+      appname: clues-service #注册到xxl-job服务端的应用名称
+      address:
+      ip:
+      port: 9889 #服务端监听到本系统的名称
+      logpath: /data/applogs/xxl-job/jobhandler #日志位置
+      logretentiondays: 30 #日志天数
+profileServer:
+  ipAddr: http://10.110.37.15:30360
+mqMsg:
+  sendMsg:
+    topic: message_remind
+    tags: supervision-task-tag
+
+#任务详情拼接url
+taskDetail:
+  url: http://10.110.37.15:30360
+#研判任务同步到指挥调度url
+taskSysnc:
+  url: http://10.110.37.15:30603/dispatchv2/dispatchTask/tasksync
+
+system:
+  name: '线索监测预警系统（拓尔思）'
+#联科效能评估接口
+efficiencyAssessUrl: http://10.110.37.15:30706/appr/exd/addExternalData
+
+# 从网关路由或直接到服务接口重定向到fastdfs
+gateWayUrl:  http://10.110.37.15:31122/odae/common/file/redictFile?url=
+#发送短信请求接口url
+sendSms:
+  url: http://172.19.150.2:18010/sms/api/smsData.do?addMessage&data=
